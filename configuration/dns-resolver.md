@@ -129,6 +129,25 @@ Warden-issued certificates now include local revocation metadata for Windows Sch
 
 These endpoints are served over plain HTTP intentionally so Windows can validate the local certificate chain before DNS is working.
 
+:::{warning}
+On some newer Windows 11 systems using WSL2 and Docker Desktop, host-side networking components such as the Hyper-V firewall and `SharedAccess` (`svchost.exe`) may still prevent Windows DNS requests from reaching Warden's local `dnsmasq` service even after `127.0.0.1` is configured as the primary DNS server. In that situation, Warden DNS may work correctly inside WSL while Windows applications still fail to resolve the same domains.
+:::
+
+If Windows DNS still does not resolve your Warden domains, use one of these workarounds:
+
+1. Add the required domains to the Windows `hosts` file at `C:\Windows\System32\drivers\etc\hosts`.
+2. Launch Chrome with host resolver overrides for Warden's `.test` domains:
+
+```text
+"C:\Program Files\Google\Chrome\Application\chrome.exe" --host-resolver-rules="MAP *.test 127.0.0.1"
+```
+
+Chromium documents <a href="https://chromium.googlesource.com/chromium/src/+/main/net/dns/README.md" target="_blank" rel="noopener noreferrer"><code>--host-resolver-rules</code> &#8599;</a> as a request remapping flag that can map hostnames to another hostname, an IP address, or `NOTFOUND`. Chrome will show a warning about the unsupported command-line flag, but the `.test` wildcard resolution itself will still work for that browser session.
+
+![Chrome warning shown when launched with host-resolver-rules on Windows](screenshots/chrome-host-remap.png)
+
+These workarounds are relatively safe because they do not require changing Windows, WSL, or Hyper-V default networking behavior. The Chrome workaround only affects that browser process and does not fix DNS for Windows generally. Other Windows applications and browsers will still need working DNS resolution or matching `hosts` file entries. For more background on WSL networking and Hyper-V firewall behavior, see Microsoft's [WSL networking documentation](https://learn.microsoft.com/en-us/windows/wsl/networking).
+
 ### macOS DNS over HTTPS
 
 macOS can also use Warden's optional DoH endpoint, but Warden does not configure macOS DoH automatically. The built-in `/etc/resolver/test` integration remains the default and simplest setup for most Mac hosts.
@@ -162,22 +181,3 @@ Helpful checks:
 curl -I https://doh.warden.test/dns-query
 curl http://127.0.0.1/.warden/pki/ca.cert.pem
 ```
-
-:::{warning}
-On some newer Windows 11 systems using WSL2 and Docker Desktop, host-side networking components such as the Hyper-V firewall and `SharedAccess` (`svchost.exe`) may still prevent Windows DNS requests from reaching Warden's local `dnsmasq` service even after `127.0.0.1` is configured as the primary DNS server. In that situation, Warden DNS may work correctly inside WSL while Windows applications still fail to resolve the same domains.
-:::
-
-If Windows DNS still does not resolve your Warden domains, use one of these workarounds:
-
-1. Add the required domains to the Windows `hosts` file at `C:\Windows\System32\drivers\etc\hosts`.
-2. Launch Chrome with host resolver overrides for Warden's `.test` domains:
-
-```text
-"C:\Program Files\Google\Chrome\Application\chrome.exe" --host-resolver-rules="MAP *.test 127.0.0.1"
-```
-
-Chromium documents <a href="https://chromium.googlesource.com/chromium/src/+/main/net/dns/README.md" target="_blank" rel="noopener noreferrer"><code>--host-resolver-rules</code> &#8599;</a> as a request remapping flag that can map hostnames to another hostname, an IP address, or `NOTFOUND`. Chrome will show a warning about the unsupported command-line flag, but the `.test` wildcard resolution itself will still work for that browser session.
-
-![Chrome warning shown when launched with host-resolver-rules on Windows](screenshots/chrome-host-remap.png)
-
-These workarounds are relatively safe because they do not require changing Windows, WSL, or Hyper-V default networking behavior. The Chrome workaround only affects that browser process and does not fix DNS for Windows generally. Other Windows applications and browsers will still need working DNS resolution or matching `hosts` file entries. For more background on WSL networking and Hyper-V firewall behavior, see Microsoft's [WSL networking documentation](https://learn.microsoft.com/en-us/windows/wsl/networking).
