@@ -98,7 +98,7 @@ warden svc up
 
 Warden will expose the DoH endpoint through Traefik at:
 
-* `https://doh.<service-domain>/dns-query`
+* `https://doh.warden.test/dns-query` by default
 
 Before Windows can use that URL, make sure the DoH hostname resolves locally. From an elevated PowerShell prompt, add it to the Windows `hosts` file:
 
@@ -136,8 +136,8 @@ macOS can also use Warden's optional DoH endpoint, but Warden does not configure
 If you want to experiment with DoH on macOS:
 
 * enable `WARDEN_DNS_OVER_HTTPS_ENABLE=1`
-* make sure `doh.<service-domain>` resolves to `127.0.0.1`, for example with `/etc/hosts`
-* configure your preferred macOS browser, client, or local resolver to use `https://doh.<service-domain>/dns-query`
+* make sure `doh.warden.test` resolves to `127.0.0.1`, for example with `/etc/hosts`
+* configure your preferred macOS browser, client, or local resolver to use `https://doh.warden.test/dns-query`
 
 Helpful checks:
 
@@ -153,8 +153,8 @@ Linux hosts can also use Warden's optional DoH endpoint, but the exact client co
 If you want to use DoH on Linux:
 
 * enable `WARDEN_DNS_OVER_HTTPS_ENABLE=1`
-* make sure `doh.<service-domain>` resolves to `127.0.0.1`, for example with `/etc/hosts`
-* point your local DoH-capable client or resolver at `https://doh.<service-domain>/dns-query`
+* make sure `doh.warden.test` resolves to `127.0.0.1`, for example with `/etc/hosts`
+* point your local DoH-capable client or resolver at `https://doh.warden.test/dns-query`
 
 Helpful checks:
 
