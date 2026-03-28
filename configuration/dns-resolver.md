@@ -145,6 +145,8 @@ If plain Windows DNS still does not resolve your Warden domains, try these optio
 
    Save the setting. Once it is applied, `*.test` domains should resolve automatically through Warden.
 
+   If you set `Fallback to plaintext` to `Off` and leave `Alternate DNS` empty, Windows will not have another resolver to fall back to when Warden is stopped or the local DoH endpoint is unavailable. In that case, even public DNS lookups may fail until Warden comes back or you change the DNS settings. Keep that in mind if you want Windows to continue resolving non-Warden domains while Warden is offline.
+
    Warden-issued certificates now include local revocation metadata for Windows Schannel and publish the required artifacts on:
 
    * `http://127.0.0.1/.warden/pki/ca.cert.pem`
