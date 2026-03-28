@@ -91,6 +91,18 @@ On Ubuntu/Debian this CA root is copied into `/usr/local/share/ca-certificates` 
 
 When `warden install` is run inside WSL, Warden will also attempt to import the same CA root into the Windows `LocalMachine\Root` certificate store by invoking `powershell.exe` from WSL. If Windows elevation is denied or device policy blocks that store, Warden falls back to `CurrentUser\Root`. This allows Windows browsers and Windows-native networking components such as DNS over HTTPS to trust Warden-issued certificates without a separate manual import step.
 
+If you need to import the certificate manually in Windows, use the same CA file from WSL:
+
+* `\\wsl$\Ubuntu-20.04\home\<USER>\.warden\ssl\rootca\certs\ca.cert.pem`
+
+Then in Windows:
+
+1. Open `certlm.msc` to import into `LocalMachine\Root`, or `certmgr.msc` to import into `CurrentUser\Root`.
+2. Go to `Trusted Root Certification Authorities -> Certificates`.
+3. Run `Import...` and select `ca.cert.pem`.
+
+Use `LocalMachine\Root` when possible, especially if you want Windows-native DNS over HTTPS and other system services to trust Warden certificates. Use `CurrentUser\Root` if administrator approval or device policy prevents the machine-wide import.
+
 :::{note}
 If you are running **Warden inside WSL** and opening sites in **Windows browsers**, the automatic Windows certificate import performed by `warden install` should usually be sufficient. This behavior has been validated against current Windows builds using Firefox, Chrome, and Edge. If the CA root is regenerated later, run `warden install` again so the updated CA can be imported into Windows. You can also run `warden doctor` to confirm whether the Warden root certificate is present in Windows `LocalMachine Root`, `CurrentUser Root`, or both.
 
