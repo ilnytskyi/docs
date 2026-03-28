@@ -150,7 +150,7 @@ This is the preferred workaround because it is system-wide, works better with Wi
 
    Save the setting. Once it is applied, `*.test` domains should resolve automatically through Warden.
 
-   :::{important}
+   :::{note}
    Keep Warden in `Preferred DNS` and your normal resolver in `Alternate DNS`. If `Alternate DNS` is empty, both Warden `*.test` domains and normal public DNS lookups fail when Warden is stopped.
    :::
 
