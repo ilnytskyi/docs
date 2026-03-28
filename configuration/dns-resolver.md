@@ -120,7 +120,10 @@ If plain Windows DNS still does not resolve your Warden domains, try these optio
 
    In the Windows DNS settings UI, this should look similar to the following:
 
-   ![Windows 11 DNS over HTTPS manual template configuration](screenshots/dns-resolver--win11-doh-settings.png)
+   ```{image} screenshots/dns-resolver--win11-doh-settings.png
+   :alt: Windows 11 DNS over HTTPS manual template configuration
+   :width: 400px
+   ```
 
    You can verify the registration with:
 
