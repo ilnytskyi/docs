@@ -69,13 +69,13 @@ Add the local dnsmasq resolver as the first DNS server:
 ![Windows DNS Configuration](screenshots/123906280-8a09c400-d97c-11eb-9558-cb513f89e4c3.png)
 
 #### Windows 11
-Open the Network & Internet control panel
+Open `Settings -> Network & Internet -> [Adapter, for example WiFi or Ethernet] -> Hardware properties`
 ![Windows 11 Network Control Panel](screenshots/dns-resolver--win11-network-internet-panel.png)
 
-Select the correct network interface for your device (ethernet, wifi, etc.), then click the "Edit" button on the line for "DNS Server Assignment"
+Edit `DNS server assignment` and switch it to `Manual`
 ![Windows 11 DNS Server Assignment tab](screenshots/dns-resolver--win11-ethernet-settings.png)
 
-Specify ``127.0.0.1`` as the primary DNS host and any public DNS server as the backup (e.g. ``1.1.1.1`` for Cloudflare, ``9.9.9.9`` for Quad9)
+For IPv4, set `Preferred DNS` to `127.0.0.1`
 ![Windows 11 DNS Configuration](screenshots/dns-resolver--win11-interface-dns-settings.png)
 
 :::{warning}
@@ -124,6 +124,16 @@ If plain Windows DNS still does not resolve your Warden domains, try these optio
    :alt: Windows 11 DNS over HTTPS manual template configuration
    :width: 400px
    ```
+
+   The resulting Windows 11 configuration should be:
+
+   * `Preferred DNS`: `127.0.0.1`
+   * `DNS over HTTPS`: `On (manual template)`
+   * `DNS over HTTPS template`: `https://doh.warden.test/dns-query`
+   * `Fallback to plaintext`: `Off`
+   * `Alternate DNS`: your previous/preferred resolver, or leave it empty
+
+   Save the setting. Once it is applied, `*.test` domains should resolve automatically through Warden.
 
    You can verify the registration with:
 
