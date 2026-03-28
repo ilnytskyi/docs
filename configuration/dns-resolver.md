@@ -155,12 +155,7 @@ This is the preferred workaround because it is system-wide, works better with Wi
    If `Alternate DNS` is empty, internet DNS may stop working when Warden is stopped.
    :::
 
-   Warden-issued certificates now include local revocation metadata for Windows Schannel and publish the required artifacts on:
-
-   * `http://127.0.0.1/.warden/pki/ca.cert.pem`
-   * `http://127.0.0.1/.warden/pki/ca.crl.pem`
-
-   These endpoints are served over plain HTTP intentionally so Windows can validate the local certificate chain before DNS is working.
+   Warden publishes the local certificate metadata Windows needs for the DoH endpoint.
 
 (windows-chrome-host-resolver)=
 #### 2. Launch Chrome with host resolver overrides
