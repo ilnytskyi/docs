@@ -70,10 +70,10 @@ On MacOS this root CA certificate is automatically added to a users trust settin
 
 On Ubuntu/Debian this CA root is copied into `/usr/local/share/ca-certificates` and on Fedora/CentOS (Enterprise Linux) it is copied into `/etc/pki/ca-trust/source/anchors` and then the trust bundle is updated appropriately. For new systems, this typically is all that is needed for the CA root to be trusted on the default Firefox browser, but it may not be trusted by Chrome or Firefox automatically should the browsers have already been launched prior to the installation of Warden (browsers on Linux may and do cache CA bundles).
 
-When `warden install` is run inside WSL, Warden will also attempt to import the same CA root into the Windows `CurrentUser\Root` certificate store by invoking `powershell.exe` from WSL. This allows Windows browsers such as Edge, Chrome, and Firefox to trust Warden-issued certificates without a separate manual import step.
+When `warden install` is run inside WSL, Warden will also attempt to import the same CA root into the Windows `LocalMachine\Root` certificate store by invoking `powershell.exe` from WSL. If Windows elevation is denied or device policy blocks that store, Warden falls back to `CurrentUser\Root`. This allows Windows browsers and Windows-native networking components such as DNS over HTTPS to trust Warden-issued certificates without a separate manual import step.
 
 :::{note}
-If you are running **Warden inside WSL** and opening sites in **Windows browsers**, the automatic Windows certificate import performed by `warden install` should usually be sufficient. This behavior has been validated against current Windows builds using Firefox, Chrome, and Edge. If the CA root is regenerated later, run `warden install` again so the updated CA can be imported into Windows.
+If you are running **Warden inside WSL** and opening sites in **Windows browsers**, the automatic Windows certificate import performed by `warden install` should usually be sufficient. This behavior has been validated against current Windows builds using Firefox, Chrome, and Edge. If the CA root is regenerated later, run `warden install` again so the updated CA can be imported into Windows. You can also run `warden doctor` to confirm whether the Warden root certificate is present in Windows `LocalMachine Root`, `CurrentUser Root`, or both.
 
 ![Warden certificates trusted in Firefox, Chrome, and Edge on Windows 11](configuration/screenshots/windows-11-certs.png)
 

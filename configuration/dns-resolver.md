@@ -78,6 +78,42 @@ Select the correct network interface for your device (ethernet, wifi, etc.), the
 Specify ``127.0.0.1`` as the primary DNS host and any public DNS server as the backup (e.g. ``1.1.1.1`` for Cloudflare, ``9.9.9.9`` for Quad9)
 ![Windows 11 DNS Configuration](screenshots/dns-resolver--win11-interface-dns-settings.png)
 
+If you are using Warden inside WSL and want Windows-native DNS over HTTPS instead of plain UDP fallback, enable Warden's optional DoH bridge in `~/.warden/.env`:
+
+```text
+WARDEN_DNS_OVER_HTTPS_ENABLE=1
+```
+
+Then restart global services:
+
+```bash
+warden svc up
+```
+
+Warden will expose the following local endpoints through Traefik:
+
+* `https://doh.<service-domain>/dns-query`
+* `https://dnsmasq.<service-domain>/dns-query` as a compatibility alias
+
+On Windows, register the DoH template for the local DNS server `127.0.0.1` from an elevated PowerShell prompt:
+
+```powershell
+Add-DnsClientDohServerAddress -ServerAddress 127.0.0.1 -DohTemplate 'https://dnsmasq.warden.test/dns-query' -AllowFallbackToUdp $false -AutoUpgrade $true
+```
+
+You can verify the registration with:
+
+```powershell
+Get-DnsClientDohServerAddress -ServerAddress 127.0.0.1
+```
+
+Warden-issued certificates now include local revocation metadata for Windows Schannel and publish the required artifacts on:
+
+* `http://127.0.0.1/.warden/pki/ca.cert.pem`
+* `http://127.0.0.1/.warden/pki/ca.crl.pem`
+
+These endpoints are served over plain HTTP intentionally so Windows can validate the local certificate chain before DNS is working.
+
 :::{warning}
 On some newer Windows 11 systems using WSL2 and Docker Desktop, host-side networking components such as the Hyper-V firewall and `SharedAccess` (`svchost.exe`) may still prevent Windows DNS requests from reaching Warden's local `dnsmasq` service even after `127.0.0.1` is configured as the primary DNS server. In that situation, Warden DNS may work correctly inside WSL while Windows applications still fail to resolve the same domains.
 :::
