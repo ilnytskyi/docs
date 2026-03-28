@@ -112,13 +112,23 @@ If plain Windows DNS still does not resolve your Warden domains, try these optio
    }
    ```
 
-   Then register the DoH template for the local DNS server `127.0.0.1` from an elevated PowerShell prompt:
+   Configure Windows DoH for `127.0.0.1` using either of these methods.
+
+   Option 1: elevated PowerShell
 
    ```powershell
    Add-DnsClientDohServerAddress -ServerAddress 127.0.0.1 -DohTemplate 'https://doh.warden.test/dns-query' -AllowFallbackToUdp $false -AutoUpgrade $true
    ```
 
-   In the Windows DNS settings UI, go to `Settings -> Network & Internet -> [Adapter, for example WiFi or Ethernet] -> Hardware properties`. This should look similar to the following:
+   You can verify the registration with:
+
+   ```powershell
+   Get-DnsClientDohServerAddress -ServerAddress 127.0.0.1
+   ```
+
+   Option 2: Windows 11 UI
+
+   Go to `Settings -> Network & Internet -> [Adapter, for example WiFi or Ethernet] -> Hardware properties`. This should look similar to the following:
 
    ```{image} screenshots/dns-resolver--win11-doh-settings.png
    :alt: Windows 11 DNS over HTTPS manual template configuration
@@ -134,12 +144,6 @@ If plain Windows DNS still does not resolve your Warden domains, try these optio
    * `Alternate DNS`: your previous/preferred resolver, or leave it empty
 
    Save the setting. Once it is applied, `*.test` domains should resolve automatically through Warden.
-
-   You can verify the registration with:
-
-   ```powershell
-   Get-DnsClientDohServerAddress -ServerAddress 127.0.0.1
-   ```
 
    Warden-issued certificates now include local revocation metadata for Windows Schannel and publish the required artifacts on:
 
