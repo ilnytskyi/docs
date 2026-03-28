@@ -69,7 +69,7 @@ Add the local dnsmasq resolver as the first DNS server:
 ![Windows DNS Configuration](screenshots/123906280-8a09c400-d97c-11eb-9558-cb513f89e4c3.png)
 
 #### Windows 11
-Open `Settings -> Network & Internet -> [Adapter, for example WiFi or Ethernet] -> Hardware properties`
+Open the Network & Internet control panel
 ![Windows 11 Network Control Panel](screenshots/dns-resolver--win11-network-internet-panel.png)
 
 Edit `DNS server assignment` and switch it to `Manual`
@@ -118,7 +118,7 @@ If plain Windows DNS still does not resolve your Warden domains, try these optio
    Add-DnsClientDohServerAddress -ServerAddress 127.0.0.1 -DohTemplate 'https://doh.warden.test/dns-query' -AllowFallbackToUdp $false -AutoUpgrade $true
    ```
 
-   In the Windows DNS settings UI, this should look similar to the following:
+   In the Windows DNS settings UI, go to `Settings -> Network & Internet -> [Adapter, for example WiFi or Ethernet] -> Hardware properties`. This should look similar to the following:
 
    ```{image} screenshots/dns-resolver--win11-doh-settings.png
    :alt: Windows 11 DNS over HTTPS manual template configuration
