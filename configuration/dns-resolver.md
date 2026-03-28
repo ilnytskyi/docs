@@ -150,7 +150,9 @@ This is the preferred workaround because it is system-wide, works better with Wi
 
    Save the setting. Once it is applied, `*.test` domains should resolve automatically through Warden.
 
-   Set a working `Alternate DNS` server if you want normal internet DNS to keep working while Warden is stopped. Leaving `Alternate DNS` empty caused both Warden `*.test` domains and normal public DNS lookups to fail until Warden came back or the DNS settings were changed.
+   Keep Warden first in the order. Do not put a public resolver such as `1.1.1.1` in `Preferred DNS` and move Warden to `Alternate DNS`, because Windows will generally prefer the public resolver first and Warden `*.test` names will no longer resolve consistently. If you want public DNS fallback, keep `127.0.0.1` as `Preferred DNS` and use your normal resolver as `Alternate DNS`.
+
+   Set a working `Alternate DNS` server if you want normal internet DNS to keep working while Warden is stopped. Leaving `Alternate DNS` empty causes both Warden `*.test` domains and normal public DNS lookups to fail until Warden comes back or the DNS settings are changed.
 
    Warden-issued certificates now include local revocation metadata for Windows Schannel and publish the required artifacts on:
 
