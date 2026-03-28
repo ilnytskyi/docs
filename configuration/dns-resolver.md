@@ -118,6 +118,10 @@ If plain Windows DNS still does not resolve your Warden domains, try these optio
    Add-DnsClientDohServerAddress -ServerAddress 127.0.0.1 -DohTemplate 'https://doh.warden.test/dns-query' -AllowFallbackToUdp $false -AutoUpgrade $true
    ```
 
+   In the Windows DNS settings UI, this should look similar to the following:
+
+   ![Windows 11 DNS over HTTPS manual template configuration](screenshots/dns-resolver--win11-doh-settings.png)
+
    You can verify the registration with:
 
    ```powershell
