@@ -52,7 +52,6 @@ If you need a quick fallback, this elevated PowerShell snippet adds the main War
 $hostsPath = "$env:SystemRoot\System32\drivers\etc\hosts"
 $entries = @(
     "127.0.0.1 traefik.warden.test",
-    "127.0.0.1 portainer.warden.test",
     "127.0.0.1 dnsmasq.warden.test",
     "127.0.0.1 doh.warden.test",
     "127.0.0.1 webmail.warden.test"
