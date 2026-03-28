@@ -165,37 +165,3 @@ Chromium documents <a href="https://chromium.googlesource.com/chromium/src/+/mai
 3. Add the required domains to the Windows `hosts` file at `C:\Windows\System32\drivers\etc\hosts`. This is the most manual option, but it always works if you only need a small set of fixed hostnames.
 
 These workarounds are relatively safe because they do not require changing Windows, WSL, or Hyper-V default networking behavior. The Chrome workaround only affects that browser process and does not fix DNS for Windows generally. Other Windows applications and browsers will still need working DNS resolution or matching `hosts` file entries. For more background on WSL networking and Hyper-V firewall behavior, see Microsoft's [WSL networking documentation](https://learn.microsoft.com/en-us/windows/wsl/networking).
-
-### macOS DNS over HTTPS
-
-macOS can also use Warden's optional DoH endpoint, but Warden does not configure macOS DoH automatically. The built-in `/etc/resolver/test` integration remains the default and simplest setup for most Mac hosts.
-
-If you want to experiment with DoH on macOS:
-
-* enable `WARDEN_DNS_OVER_HTTPS_ENABLE=1`
-* make sure `doh.warden.test` resolves to `127.0.0.1`, for example with `/etc/hosts`
-* configure your preferred macOS browser, client, or local resolver to use `https://doh.warden.test/dns-query`
-
-Helpful checks:
-
-```bash
-curl -I https://doh.warden.test/dns-query
-curl http://127.0.0.1/.warden/pki/ca.cert.pem
-```
-
-### Linux DNS over HTTPS
-
-Linux hosts can also use Warden's optional DoH endpoint, but the exact client configuration depends on your resolver stack. Warden does not automatically configure Linux DoH clients.
-
-If you want to use DoH on Linux:
-
-* enable `WARDEN_DNS_OVER_HTTPS_ENABLE=1`
-* make sure `doh.warden.test` resolves to `127.0.0.1`, for example with `/etc/hosts`
-* point your local DoH-capable client or resolver at `https://doh.warden.test/dns-query`
-
-Helpful checks:
-
-```bash
-curl -I https://doh.warden.test/dns-query
-curl http://127.0.0.1/.warden/pki/ca.cert.pem
-```
