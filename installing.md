@@ -44,7 +44,27 @@ Launch wsl from your terminal of choice.
 In order for DNS entries to be resolved either add entries to your Windows `C:\Windows\System32\drivers\etc\hosts` file or add `127.0.0.1` as the first DNS server in your current network adapter in Windows.
 
 :::{warning}
-On some newer Windows 11 systems, Hyper-V firewall behavior can prevent Windows DNS requests from reaching Warden's local `dnsmasq` service even when `127.0.0.1` is configured as the primary DNS server. If that happens, use the Windows `hosts` file for your Warden domains or follow the browser-level workaround described on the {doc}`Automatic DNS Resolution <configuration/dns-resolver>` page.
+On some Windows 11 / WSL2 systems, plain DNS to `127.0.0.1` may not work reliably from Windows. If that happens, prefer the DNS over HTTPS setup described on the {doc}`Automatic DNS Resolution <configuration/dns-resolver>` page.
+
+If you need a quick fallback, this elevated PowerShell snippet adds the main Warden global hostnames to the Windows `hosts` file:
+
+```powershell
+$hostsPath = "$env:SystemRoot\System32\drivers\etc\hosts"
+$entries = @(
+    "127.0.0.1 traefik.warden.test",
+    "127.0.0.1 portainer.warden.test",
+    "127.0.0.1 dnsmasq.warden.test",
+    "127.0.0.1 doh.warden.test",
+    "127.0.0.1 webmail.warden.test"
+)
+
+$existing = Get-Content -Path $hostsPath -ErrorAction SilentlyContinue
+foreach ($entry in $entries) {
+    if ($existing -notcontains $entry) {
+        Add-Content -Path $hostsPath -Value $entry
+    }
+}
+```
 :::
 
 :::{warning}
