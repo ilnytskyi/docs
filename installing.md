@@ -46,7 +46,7 @@ In order for DNS entries to be resolved either add entries to your Windows `C:\W
 :::{warning}
 On some Windows 11 / WSL2 systems, plain DNS to `127.0.0.1` may not work reliably from Windows. If that happens, prefer the DNS over HTTPS setup described on the {doc}`Automatic DNS Resolution <configuration/dns-resolver>` page.
 
-If you need a quick fallback, this elevated PowerShell snippet adds the main Warden global hostnames to the Windows `hosts` file:
+If you need a quick fallback, open PowerShell as Administrator and run this snippet to add the main Warden global hostnames to the Windows `hosts` file:
 
 ```powershell
 $hostsPath = "$env:SystemRoot\System32\drivers\etc\hosts"
