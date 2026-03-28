@@ -150,7 +150,7 @@ This is the preferred workaround because it is system-wide, works better with Wi
 
    Save the setting. Once it is applied, `*.test` domains should resolve automatically through Warden.
 
-   If you set `Fallback to plaintext` to `Off` and leave `Alternate DNS` empty, Windows will not have another resolver to fall back to when Warden is stopped or the local DoH endpoint is unavailable. In that case, even public DNS lookups may fail until Warden comes back or you change the DNS settings. Keep that in mind if you want Windows to continue resolving non-Warden domains while Warden is offline.
+   In testing, when `Fallback to plaintext` was `Off` and `Alternate DNS` was empty, Windows did not fall back when Warden was stopped. Both Warden `*.test` domains and normal public DNS lookups failed until Warden came back or the DNS settings were changed. Keep that in mind if you want Windows to continue resolving non-Warden domains while Warden is offline.
 
    Warden-issued certificates now include local revocation metadata for Windows Schannel and publish the required artifacts on:
 
