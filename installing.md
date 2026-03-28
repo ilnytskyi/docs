@@ -97,7 +97,10 @@ If you need to import the certificate manually in Windows, use the same CA file 
 
 Then in Windows:
 
-1. Press `Win + R`, then open `certlm.msc` to import into `LocalMachine\Root`, or `certmgr.msc` to import into `CurrentUser\Root`.
+1. Press `Win + R`, then open:
+
+   * `certlm.msc` for `LocalMachine\Root`
+   * `certmgr.msc` for `CurrentUser\Root`
 2. Go to `Trusted Root Certification Authorities -> Certificates`.
    
    ```{image} configuration/screenshots/windows-certlm-import-certificate.png
