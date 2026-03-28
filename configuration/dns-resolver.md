@@ -155,7 +155,6 @@ This is the preferred workaround because it is system-wide, works better with Wi
    If `Alternate DNS` is empty, internet DNS may stop working when Warden is stopped.
    :::
 
-   Warden publishes the local certificate metadata Windows needs for the DoH endpoint.
 
 (windows-chrome-host-resolver)=
 #### 2. Launch Chrome with host resolver overrides
