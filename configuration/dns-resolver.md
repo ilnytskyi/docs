@@ -82,7 +82,9 @@ For IPv4, set `Preferred DNS` to `127.0.0.1`
 On some newer Windows 11 systems using WSL2 and Docker Desktop, host-side networking components such as the Hyper-V firewall and `SharedAccess` (`svchost.exe`) may still prevent Windows DNS requests from reaching Warden's local `dnsmasq` service even after `127.0.0.1` is configured as the primary DNS server. In that situation, Warden DNS may work correctly inside WSL while Windows applications still fail to resolve the same domains. When that happens, Windows DNS over HTTPS can be a particularly useful workaround because it avoids relying on plain local DNS traffic to `127.0.0.1`.
 :::
 
-If plain Windows DNS still does not resolve your Warden domains, try these options in order:
+#### If plain Windows DNS still does not resolve your Warden domains
+
+Try these options in order:
 
 (windows-doh)=
 #### 1. Enable Windows DNS over HTTPS for Warden
