@@ -97,8 +97,14 @@ If you need to import the certificate manually in Windows, use the same CA file 
 
 Then in Windows:
 
-1. Open `certlm.msc` to import into `LocalMachine\Root`, or `certmgr.msc` to import into `CurrentUser\Root`.
+1. Press `Win + R`, then open `certlm.msc` to import into `LocalMachine\Root`, or `certmgr.msc` to import into `CurrentUser\Root`.
 2. Go to `Trusted Root Certification Authorities -> Certificates`.
+   
+   ```{image} configuration/screenshots/windows-certlm-trusted-root-certificates.png
+   :alt: Windows Local Computer certificate console opened to Trusted Root Certification Authorities Certificates
+   :width: 700px
+   ```
+
 3. Run `Import...` and select `ca.cert.pem`.
 
 Use `LocalMachine\Root` when possible, especially if you want Windows-native DNS over HTTPS and other system services to trust Warden certificates. Use `CurrentUser\Root` if administrator approval or device policy prevents the machine-wide import.
