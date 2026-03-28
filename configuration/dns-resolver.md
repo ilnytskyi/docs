@@ -79,12 +79,12 @@ Specify ``127.0.0.1`` as the primary DNS host and any public DNS server as the b
 ![Windows 11 DNS Configuration](screenshots/dns-resolver--win11-interface-dns-settings.png)
 
 :::{warning}
-On some newer Windows 11 systems using WSL2 and Docker Desktop, host-side networking components such as the Hyper-V firewall and `SharedAccess` (`svchost.exe`) may still prevent Windows DNS requests from reaching Warden's local `dnsmasq` service even after `127.0.0.1` is configured as the primary DNS server. In that situation, Warden DNS may work correctly inside WSL while Windows applications still fail to resolve the same domains.
+On some newer Windows 11 systems using WSL2 and Docker Desktop, host-side networking components such as the Hyper-V firewall and `SharedAccess` (`svchost.exe`) may still prevent Windows DNS requests from reaching Warden's local `dnsmasq` service even after `127.0.0.1` is configured as the primary DNS server. In that situation, Warden DNS may work correctly inside WSL while Windows applications still fail to resolve the same domains. When that happens, Windows DNS over HTTPS can be a particularly useful workaround because it avoids relying on plain local DNS traffic to `127.0.0.1`.
 :::
 
 If plain Windows DNS still does not resolve your Warden domains, try these options in order:
 
-1. Enable Windows DNS over HTTPS for Warden. This is the preferred workaround because it is system-wide and works better with Windows-native networking once the Warden root CA is trusted.
+1. Enable Windows DNS over HTTPS for Warden. This is the preferred workaround because it is system-wide, works better with Windows-native networking once the Warden root CA is trusted, and may succeed on systems where plain `127.0.0.1` DNS is disrupted by Hyper-V, `SharedAccess`, or similar Windows networking behavior.
 
    First enable Warden's optional DoH bridge in `~/.warden/.env`:
 
