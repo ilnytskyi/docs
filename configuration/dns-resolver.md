@@ -85,9 +85,9 @@ On some newer Windows 11 systems using WSL2 and Docker Desktop, host-side networ
 If plain Windows DNS still does not resolve your Warden domains, try these options in order:
 
 (windows-doh)=
-#### Enable Windows DNS over HTTPS for Warden
+#### 1. Enable Windows DNS over HTTPS for Warden
 
-1. This is the preferred workaround because it is system-wide, works better with Windows-native networking once the Warden root CA is trusted, and may succeed on systems where plain `127.0.0.1` DNS is disrupted by Hyper-V, `SharedAccess`, or similar Windows networking behavior.
+This is the preferred workaround because it is system-wide, works better with Windows-native networking once the Warden root CA is trusted, and may succeed on systems where plain `127.0.0.1` DNS is disrupted by Hyper-V, `SharedAccess`, or similar Windows networking behavior.
 
    First enable Warden's optional DoH bridge in `~/.warden/.env`:
 
@@ -158,9 +158,9 @@ If plain Windows DNS still does not resolve your Warden domains, try these optio
    These endpoints are served over plain HTTP intentionally so Windows can validate the local certificate chain before DNS is working.
 
 (windows-chrome-host-resolver)=
-#### Launch Chrome with host resolver overrides
+#### 2. Launch Chrome with host resolver overrides
 
-2. This is often sufficient for browser use because it applies a wildcard mapping without requiring one `hosts` entry per hostname:
+This is often sufficient for browser use because it applies a wildcard mapping without requiring one `hosts` entry per hostname:
 
 ```text
 "C:\Program Files\Google\Chrome\Application\chrome.exe" --host-resolver-rules="MAP *.test 127.0.0.1"
@@ -171,8 +171,8 @@ Chromium documents <a href="https://chromium.googlesource.com/chromium/src/+/mai
 ![Chrome warning shown when launched with host-resolver-rules on Windows](screenshots/chrome-host-remap.png)
 
 (windows-hosts-fallback)=
-#### Add the required domains to the Windows `hosts` file
+#### 3. Add the required domains to the Windows `hosts` file
 
-3. This is the most manual option, but it always works if you only need a small set of fixed hostnames.
+This is the most manual option, but it always works if you only need a small set of fixed hostnames.
 
 These workarounds are relatively safe because they do not require changing Windows, WSL, or Hyper-V default networking behavior. The Chrome workaround only affects that browser process and does not fix DNS for Windows generally. Other Windows applications and browsers will still need working DNS resolution or matching `hosts` file entries. For more background on WSL networking and Hyper-V firewall behavior, see Microsoft's [WSL networking documentation](https://learn.microsoft.com/en-us/windows/wsl/networking).
