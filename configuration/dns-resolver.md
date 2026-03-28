@@ -78,7 +78,11 @@ Select the correct network interface for your device (ethernet, wifi, etc.), the
 Specify ``127.0.0.1`` as the primary DNS host and any public DNS server as the backup (e.g. ``1.1.1.1`` for Cloudflare, ``9.9.9.9`` for Quad9)
 ![Windows 11 DNS Configuration](screenshots/dns-resolver--win11-interface-dns-settings.png)
 
-If you are using Warden inside WSL and want Windows-native DNS over HTTPS instead of plain UDP fallback, enable Warden's optional DoH bridge in `~/.warden/.env`:
+### Windows DNS over HTTPS
+
+If you are using Warden inside WSL, Windows-native DNS over HTTPS is the preferred setup because it avoids plain UDP fallback and works better with Windows system services once the Warden root CA is trusted.
+
+Enable Warden's optional DoH bridge in `~/.warden/.env`:
 
 ```text
 WARDEN_DNS_OVER_HTTPS_ENABLE=1
@@ -90,15 +94,24 @@ Then restart global services:
 warden svc up
 ```
 
-Warden will expose the following local endpoints through Traefik:
+Warden will expose the DoH endpoint through Traefik at:
 
 * `https://doh.<service-domain>/dns-query`
-* `https://dnsmasq.<service-domain>/dns-query` as a compatibility alias
+
+Before Windows can use that URL, make sure the DoH hostname resolves locally. From an elevated PowerShell prompt, add it to the Windows `hosts` file:
+
+```powershell
+$hostsPath = "$env:SystemRoot\System32\drivers\etc\hosts"
+$entry = "127.0.0.1 doh.warden.test"
+if (-not (Select-String -Path $hostsPath -SimpleMatch $entry -Quiet -ErrorAction SilentlyContinue)) {
+    Add-Content -Path $hostsPath -Value $entry
+}
+```
 
 On Windows, register the DoH template for the local DNS server `127.0.0.1` from an elevated PowerShell prompt:
 
 ```powershell
-Add-DnsClientDohServerAddress -ServerAddress 127.0.0.1 -DohTemplate 'https://dnsmasq.warden.test/dns-query' -AllowFallbackToUdp $false -AutoUpgrade $true
+Add-DnsClientDohServerAddress -ServerAddress 127.0.0.1 -DohTemplate 'https://doh.warden.test/dns-query' -AllowFallbackToUdp $false -AutoUpgrade $true
 ```
 
 You can verify the registration with:
