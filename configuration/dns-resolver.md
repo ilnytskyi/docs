@@ -146,18 +146,11 @@ This is the preferred workaround because it is system-wide, works better with Wi
    * `DNS over HTTPS`: `On (manual template)`
    * `DNS over HTTPS template`: `https://doh.warden.test/dns-query`
    * `Fallback to plaintext`: `Off`
-   * `Alternate DNS`: your previous/preferred resolver if you want internet access to keep working when Warden is stopped, or leave it empty if you want Windows to depend only on Warden
+   * `Alternate DNS`: your normal resolver such as `1.1.1.1`
 
    Save the setting. Once it is applied, `*.test` domains should resolve automatically through Warden.
 
-   Use this order:
-
-   * `Preferred DNS`: `127.0.0.1`
-   * `Alternate DNS`: your normal resolver such as `1.1.1.1` if you want internet DNS to keep working when Warden is stopped
-
-   Do not put a public resolver in `Preferred DNS` and move Warden to `Alternate DNS`.
-
-   If `Alternate DNS` is empty, both Warden `*.test` domains and normal public DNS lookups fail when Warden is stopped.
+   Keep Warden in `Preferred DNS` and your normal resolver in `Alternate DNS`. If `Alternate DNS` is empty, both Warden `*.test` domains and normal public DNS lookups fail when Warden is stopped.
 
    Warden-issued certificates now include local revocation metadata for Windows Schannel and publish the required artifacts on:
 
