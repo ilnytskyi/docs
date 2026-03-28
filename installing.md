@@ -100,7 +100,7 @@ Then in Windows:
 1. Press `Win + R`, then open:
 
    * `certlm.msc` for `LocalMachine\Root`  
-     Preferred for Windows DoH. See {doc}`Automatic DNS Resolution <configuration/dns-resolver>`.
+     Preferred for Windows DoH. See {ref}`windows-doh`.
    * `certmgr.msc` for `CurrentUser\Root`
 2. Go to `Trusted Root Certification Authorities -> Certificates`.
    

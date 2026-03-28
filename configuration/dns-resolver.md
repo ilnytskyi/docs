@@ -84,6 +84,7 @@ On some newer Windows 11 systems using WSL2 and Docker Desktop, host-side networ
 
 If plain Windows DNS still does not resolve your Warden domains, try these options in order:
 
+(windows-doh)=
 1. Enable Windows DNS over HTTPS for Warden. This is the preferred workaround because it is system-wide, works better with Windows-native networking once the Warden root CA is trusted, and may succeed on systems where plain `127.0.0.1` DNS is disrupted by Hyper-V, `SharedAccess`, or similar Windows networking behavior.
 
    First enable Warden's optional DoH bridge in `~/.warden/.env`:
