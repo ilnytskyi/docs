@@ -88,6 +88,8 @@ Enable Warden's optional DoH bridge in `~/.warden/.env`:
 WARDEN_DNS_OVER_HTTPS_ENABLE=1
 ```
 
+When this option is enabled, Warden will also keep its global `dnsmasq` service enabled because the DoH endpoint forwards queries to the existing local resolver.
+
 Then restart global services:
 
 ```bash
@@ -126,6 +128,40 @@ Warden-issued certificates now include local revocation metadata for Windows Sch
 * `http://127.0.0.1/.warden/pki/ca.crl.pem`
 
 These endpoints are served over plain HTTP intentionally so Windows can validate the local certificate chain before DNS is working.
+
+### macOS DNS over HTTPS
+
+macOS can also use Warden's optional DoH endpoint, but Warden does not configure macOS DoH automatically. The built-in `/etc/resolver/test` integration remains the default and simplest setup for most Mac hosts.
+
+If you want to experiment with DoH on macOS:
+
+* enable `WARDEN_DNS_OVER_HTTPS_ENABLE=1`
+* make sure `doh.<service-domain>` resolves to `127.0.0.1`, for example with `/etc/hosts`
+* configure your preferred macOS browser, client, or local resolver to use `https://doh.<service-domain>/dns-query`
+
+Helpful checks:
+
+```bash
+curl -I https://doh.warden.test/dns-query
+curl http://127.0.0.1/.warden/pki/ca.cert.pem
+```
+
+### Linux DNS over HTTPS
+
+Linux hosts can also use Warden's optional DoH endpoint, but the exact client configuration depends on your resolver stack. Warden does not automatically configure Linux DoH clients.
+
+If you want to use DoH on Linux:
+
+* enable `WARDEN_DNS_OVER_HTTPS_ENABLE=1`
+* make sure `doh.<service-domain>` resolves to `127.0.0.1`, for example with `/etc/hosts`
+* point your local DoH-capable client or resolver at `https://doh.<service-domain>/dns-query`
+
+Helpful checks:
+
+```bash
+curl -I https://doh.warden.test/dns-query
+curl http://127.0.0.1/.warden/pki/ca.cert.pem
+```
 
 :::{warning}
 On some newer Windows 11 systems using WSL2 and Docker Desktop, host-side networking components such as the Hyper-V firewall and `SharedAccess` (`svchost.exe`) may still prevent Windows DNS requests from reaching Warden's local `dnsmasq` service even after `127.0.0.1` is configured as the primary DNS server. In that situation, Warden DNS may work correctly inside WSL while Windows applications still fail to resolve the same domains.
