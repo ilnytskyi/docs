@@ -117,21 +117,16 @@ This is the preferred workaround because it is system-wide, works better with Wi
    }
    ```
 
-   Configure Windows DoH for `127.0.0.1` using either of these methods.
-
-   Option 1: elevated PowerShell
-
-   ```powershell
-   Add-DnsClientDohServerAddress -ServerAddress 127.0.0.1 -DohTemplate 'https://doh.warden.test/dns-query' -AllowFallbackToUdp $false -AutoUpgrade $true
-   ```
-
-   You can verify the registration with:
+   Warden can register the DoH template for `127.0.0.1` automatically when it is installed from WSL with the Windows bridge available.
+   If you want to confirm the template is present, you can verify it with:
 
    ```powershell
    Get-DnsClientDohServerAddress -ServerAddress 127.0.0.1
    ```
 
-   Option 2: Windows 11 UI
+   Then configure your network adapter to actually use `127.0.0.1` as DNS.
+
+   Windows 11 UI
 
    Go to `Settings -> Network & Internet -> [Adapter, for example WiFi or Ethernet] -> Hardware properties`. This should look similar to the following:
 
@@ -152,6 +147,7 @@ This is the preferred workaround because it is system-wide, works better with Wi
    :::{note}
    Keep Warden in `Preferred DNS` and your normal resolver in `Alternate DNS`.
    If `Alternate DNS` is empty, internet DNS may stop working when Warden is stopped.
+   DoH template registration alone does not set these adapter DNS values for you.
    :::
 
 
