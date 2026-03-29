@@ -14,20 +14,22 @@ Installing Warden
 ## Installing via Homebrew
 
 Warden may be installed via [Homebrew](https://brew.sh/) on both macOS and Linux hosts:
-
-    brew install wardenenv/warden/warden
-    warden svc up
+```bash
+ brew install wardenenv/warden/warden
+ warden svc up
+```
 
 ## Alternative Installation
 
 Warden may be installed by cloning the repository to the directory of your choice and adding it to your `$PATH`. This method of installation may be when Homebrew does not already exist on your system or when preparing contributions to the Warden project.
-
-    sudo mkdir /opt/warden
-    sudo chown $(whoami) /opt/warden
-    git clone -b main https://github.com/wardenenv/warden.git /opt/warden
-    echo 'export PATH="/opt/warden/bin:$PATH"' >> ~/.bashrc
-    PATH="/opt/warden/bin:$PATH"
-    warden svc up
+```bash
+ sudo mkdir /opt/warden
+ sudo chown $(whoami) /opt/warden
+ git clone -b main https://github.com/wardenenv/warden.git /opt/warden
+ echo 'export PATH="/opt/warden/bin:$PATH"' >> ~/.bashrc
+ PATH="/opt/warden/bin:$PATH"
+ warden svc up
+```
 
 ## Windows Installation (via WSL2)
 
@@ -35,12 +37,12 @@ Install [WSL2 in Windows](https://learn.microsoft.com/en-us/windows/wsl/install)
 Install Ubuntu 20.04 or other compatible Linux version from the Windows store or [manually download distibutions](https://docs.microsoft.com/en-us/windows/wsl/install-manual).   
 Launch Docker for Windows, make sure that the option for WSL2 integration is set.  
 Launch wsl from your terminal of choice.  
-
-        wsl
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-        brew install wardenenv/warden/warden
-        warden svc up
-
+```bash
+ wsl
+ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+ brew install wardenenv/warden/warden
+ warden svc up
+```
 In order for DNS entries to be resolved either add entries to your Windows `C:\Windows\System32\drivers\etc\hosts` file or add `127.0.0.1` as the first DNS server in your current network adapter in Windows.
 
 :::{warning}
