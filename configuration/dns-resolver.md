@@ -145,7 +145,6 @@ This is the preferred workaround because it is system-wide, works better with Wi
    * `Preferred DNS`: `127.0.0.1`
    * `DNS over HTTPS`: `On (manual template)`
    * `DNS over HTTPS template`: `https://doh.warden.test/dns-query`
-   * `Fallback to plaintext`: `Off`
    * `Alternate DNS`: your normal resolver such as `1.1.1.1`
 
    Save the setting. Once it is applied, `*.test` domains should resolve automatically through Warden.
